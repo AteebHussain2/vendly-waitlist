@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 
 export async function POST(req: Request) {
     try {
@@ -13,50 +12,38 @@ export async function POST(req: Request) {
             );
         }
 
-        const dataDir = path.join(process.cwd(), 'data');
-        const filePath = path.join(dataDir, 'waitlist.json');
-
-        // Ensure data directory exists
-        if (!fs.existsSync(dataDir)) {
-            fs.mkdirSync(dataDir);
-        }
-
-        let waitlist = [];
-
-        // Read existing data if file exists
-        if (fs.existsSync(filePath)) {
-            const fileData = fs.readFileSync(filePath, 'utf8');
-            try {
-                waitlist = JSON.parse(fileData);
-            } catch (e) {
-                // If file is corrupt, start fresh
-                waitlist = [];
-            }
-        }
-
-        // Check if email already exists
-        if (waitlist.some((entry: any) => entry.email === email)) {
-            return NextResponse.json(
-                { message: 'You are already on the list!' },
-                { status: 409 } // Conflict
-            );
-        }
-
-        // Add new email
-        const newEntry = {
-            email,
-            date: new Date().toISOString(),
-        };
-
-        waitlist.push(newEntry);
-
-        // Save back to file
-        fs.writeFileSync(filePath, JSON.stringify(waitlist, null, 2));
-
-        return NextResponse.json(
-            { message: 'Success! You have been added to the waitlist.' },
-            { status: 200 }
+        try {
+            // 1. Create the table if it doesn't exist (Lazy initialization)
+            // handling table creation here ensures "one-click" usage for the user
+            await sql`
+        CREATE TABLE IF NOT EXISTS waitlist (
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) NOT NULL UNIQUE,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
+      `;
+
+            // 2. Insert the email
+            await sql`
+        INSERT INTO waitlist (email)
+        VALUES (${email})
+      `;
+
+            return NextResponse.json(
+                { message: 'Success! You have been added to the waitlist.' },
+                { status: 200 }
+            );
+        } catch (dbError: any) {
+            // Handle duplicate email error (Unique constraint violation)
+            if (dbError.code === '23505') {
+                return NextResponse.json(
+                    { message: 'You are already on the list!' },
+                    { status: 409 }
+                );
+            }
+            throw dbError; // Rethrow other errors to the generic handler
+        }
+
     } catch (error) {
         console.error('Waitlist API Error:', error);
         return NextResponse.json(

@@ -66,12 +66,36 @@ Follow these steps to run the project locally:
 4.  **Open the app**:
     Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
+## 🚀 Deployment (Vercel)
+
+This project is optimized for deployment on Vercel with **Vercel Postgres**.
+
+1.  **Push to GitHub**: Make sure your code is committed and pushed.
+    ```bash
+    git add .
+    git commit -m "Ready for deploy"
+    git push
+    ```
+
+2.  **Import to Vercel**: 
+    - Go to [Vercel Dashboard](https://vercel.com/new).
+    - Import your repository `vendly`.
+
+3.  **Connect Database**:
+    - Once deployed (or during setup), go to the **Storage** tab in your Vercel project.
+    - Click **"Connect Store"** -> **"Create New"** -> **"Postgres"**.
+    - Accept the defaults and click **Connect**.
+    - Vercel will automatically add the `POSTGRES_URL` and other environment variables to your project.
+
+4.  **Redeploy**:
+    - You might need to Redeploy (Deployments -> Redeploy) for the environment variables to take effect.
+
 ## 🧪 Verification
 
 To verify the Waitlist functionality:
-1.  Enter an email address in the input field on the landing page.
+1.  Enter an email address in the input field.
 2.  Click "Join Waitlist".
-3.  Check the `data/waitlist.json` file in your project root to see the new entry.
+3.  Check your Vercel Dashboard -> Storage -> Postgres -> **Data** tab. You should see a `waitlist` table with the email entry.
 
 ## 🔮 Roadmap
 
