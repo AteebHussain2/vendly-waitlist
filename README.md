@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vendly - Modern E-Commerce Platform
 
-## Getting Started
+![Vendly Waitlist](public/og-image.png)
 
-First, run the development server:
+Vendly is a modern, easy-to-use e-commerce platform built for individuals and small businesses who want to sell online without the complexity and high costs of traditional tools.
+
+This repository contains the source code for the **Vendly Waitlist Landing Page**, designed to capture early interest and build a community before the full platform launch.
+
+## 🚀 Key Features
+
+-   **Modern & Aesthetic UI**: A polished, "slate-themed" design using `Tailwind CSS v4` and generic variables for easy theming (Dark/Light mode ready).
+-   **Smooth Animations**: Integrated `Framer Motion` for engaging entrance and state transition animations.
+-   **Waitlist Logic**: Functional email capture form that validates inputs and stores data securely in a local JSON file (`data/waitlist.json`).
+-   **Responsive Design**: Fully responsive layout optimized for mobile, tablet, and desktop viewports.
+-   **Performance Focused**: Built on **Next.js 15** and **React 19** for blazing fast load times and SEO optimization.
+
+## 🛠️ Tech Stack
+
+-   **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+-   **Library**: [React 19](https://react.dev/)
+-   **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+-   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+-   **Icons**: [Lucide React](https://lucide.dev/)
+-   **Utilities**: `clsx`, `tailwind-merge` for robust class management.
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+vendly/
+├── src/
+│   ├── app/                # Next.js App Router pages and API routes
+│   │   ├── api/waitlist/   # Backend logic for storing emails
+│   │   ├── globals.css     # Global styles and Tailwind configuration
+│   │   ├── layout.tsx      # Root layout with font and metadata configuration
+│   │   └── page.tsx        # Main landing page composition
+│   ├── components/
+│   │   ├── landing/        # Landing page specific components (Hero, Features, Form)
+│   │   └── ui/             # Reusable UI components (Button, Input)
+│   └── lib/                # Utility functions (cn helper)
+├── data/                   # Local storage for waitlist entries
+│   └── waitlist.json       # JSON file containing captured emails
+├── public/                 # Static assets
+└── package.json            # Project dependencies and scripts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏁 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Follow these steps to run the project locally:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/vendly.git
+    cd vendly
+    ```
 
-## Learn More
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4.  **Open the app**:
+    Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧪 Verification
 
-## Deploy on Vercel
+To verify the Waitlist functionality:
+1.  Enter an email address in the input field on the landing page.
+2.  Click "Join Waitlist".
+3.  Check the `data/waitlist.json` file in your project root to see the new entry.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔮 Roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   [x] Waitlist Landing Page
+-   [ ] User Authentication (Auth.js / Clerk)
+-   [ ] Dashboard UI
+-   [ ] Product Management
+-   [ ] Stripe Integration for Payments
+-   [ ] Public Storefront Generation
+
+## 📄 License
+
+This project is licensed under the MIT License.
