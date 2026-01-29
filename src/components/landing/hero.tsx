@@ -2,8 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { WaitlistForm } from './waitlist-form'
+import { useEffect, useState } from 'react'
+import userCount from '@/actions/userCount'
 
 export function Hero() {
+    const [users, setUsers] = useState(0)
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const res = await userCount()
+            setUsers(res)
+        }
+        fetchUsers()
+    }, [])
+
+
     return (
         <section className="relative flex min-h-[80vh] w-full flex-col items-center justify-center overflow-hidden px-4 py-24 text-center">
 
@@ -35,7 +47,7 @@ export function Hero() {
                 <div className="mt-8">
                     <WaitlistForm />
                     <p className="mt-4 text-xs text-muted-foreground">
-                        Join 2,000+ others on the waitlist. No spam, ever.
+                        Join {users || '0'}+ others on the waitlist. No spam, ever.
                     </p>
                 </div>
             </motion.div>
